@@ -1,3 +1,4 @@
+import { Add, Delete } from '@mui/icons-material';
 import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
@@ -59,9 +60,8 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
       open={showForm}
       onClose={() => { setShowForm(false) }}
     >
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="workout">workout:</label>
+      <form onSubmit={handleSubmit} style={{padding:'16px'}}>
+        <div style={{marginBottom:4}}>
           {exercises?.length > 0 ? <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -85,16 +85,16 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
         <div>
           <label>Sets:</label>
           {sets.map((set, index) => (
-            <div key={index}>
+            <div style={{marginTop:4}} key={index}>
               <TextField type="number" value={set.weight} onChange={(e) => handleWeightChange(e, index)} placeholder="Weight" required label="kg" />
               <TextField type="number" value={set.reps} onChange={(e) => handleRepsChange(e, index)} placeholder="Reps" required label="Reps" />
-              <button type="button" onClick={() => handleRemoveSet(index)}>Remove</button>
+              <button type="button" onClick={() => handleRemoveSet(index)}><Delete /></button>
             </div>
           ))}
-          <button type="button" onClick={handleAddSet}>Add Set</button>
+          <button type="button"  onClick={handleAddSet}><Add /> </button>
         </div>
 
-        <button type="submit">Submit</button>
+       <div style={{width:"100%",display:'flex',alignItems:"center",justifyContent:"center"}}> <button type="submit">Submit</button></div>
       </form>
 
     </Drawer>
