@@ -1,7 +1,8 @@
 import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/material';
+import axios from 'axios';
 import React, { useState } from 'react';
 
-const AddWorkoutForm = ({ exercises,showForm,setShowForm }) => {
+const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) => {
   const [workout, setWorkout] = useState("");
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
 
@@ -27,13 +28,28 @@ const AddWorkoutForm = ({ exercises,showForm,setShowForm }) => {
     setSets(newSets);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform submission logic here, e.g., send data to the server
     console.log({ workout, sets });
+    const exerciseData = {
+      date: selectedDate.standard,
+      exercises: [{
+        name: workout.name,
+        sets: sets.map(i => {return {reps:i.reps,weight:i.weight}})
+      }]
+    }
+    console.log(exerciseData,'exerciseData')
+    try {
+      await axios.post(`${url}/workouts`, exerciseData);
+      console.log('Exercise data successfully posted!');
+    } catch (error) {
+      console.error('Error posting exercise data:', error);
+    }
     // Reset form
     setWorkout(" ");
     setSets([{ reps: 0, weight: 0 }]);
+    setShowForm(false) 
   };
 
   return (
