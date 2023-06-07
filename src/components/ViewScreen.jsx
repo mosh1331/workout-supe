@@ -16,7 +16,7 @@ const ViewScreen = () => {
   const [datalist, setDatalist] = useState([])
   const [exercises, setExercises] = useState([])
   const [showForm, setShowForm] = useState(false)
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState({standard:dayjs(),display: dayjs().format("DD-MM-YYYY")});
   const [highlightedDays, setHighlightedDays] = useState([1, 2, 13]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ViewScreen = () => {
  
 
   return (
-    <div className="text-3xl font-bold underline" style={{ position: 'relative', height: "100vh",width:"100%",background:"#2b2a2a" }}>
+    <div className="text-3xl font-bold underline" style={{ position: 'relative', minHeight: "100vh",width:"100%",background:"#2b2a2a" }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <StaticDatePicker   sx={{
           	'& .css-qa7bje-MuiButtonBase-root-MuiPickersDay-root': {
@@ -83,9 +83,13 @@ const ViewScreen = () => {
               height:"40px",
               fontWeight:600
             },
+            '& .css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected':{
+              background:"purple !important"
+            },
           background:"#423b3b",width:"95%",margin:"0 auto",fontSize:20,color:'tomato'}}
          variant='static'
          orientation='portrait'
+         value={selectedDate.standard}
          onChange={(e)=>{setSelectedDate({standard:dayjs(e.$d),display: dayjs(e.$d).format("DD-MM-YYYY")})
         }}
          renderInput={(params) => {

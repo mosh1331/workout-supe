@@ -3,7 +3,7 @@ import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/mate
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) => {
+const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate }) => {
   const [workout, setWorkout] = useState("");
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
 
@@ -37,10 +37,10 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
       date: selectedDate.standard,
       exercises: [{
         name: workout.name,
-        sets: sets.map(i => {return {reps:i.reps,weight:i.weight}})
+        sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
       }]
     }
-    console.log(exerciseData,'exerciseData')
+    console.log(exerciseData, 'exerciseData')
     try {
       await axios.post(`${url}/workouts`, exerciseData);
       console.log('Exercise data successfully posted!');
@@ -50,8 +50,19 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
     // Reset form
     setWorkout(" ");
     setSets([{ reps: 0, weight: 0 }]);
-    setShowForm(false) 
+    setShowForm(false)
   };
+
+  const inputsContainer = {
+    marginBottom: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }
+
+  const inputStyle = {
+    width: "40%"
+  }
 
   return (
 
@@ -60,8 +71,8 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
       open={showForm}
       onClose={() => { setShowForm(false) }}
     >
-      <form onSubmit={handleSubmit} style={{padding:'16px'}}>
-        <div style={{marginBottom:4}}>
+      <form onSubmit={handleSubmit} style={{ padding: '16px' }}>
+        <div style={{ marginBottom: 4 }}>
           {exercises?.length > 0 ? <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -82,19 +93,20 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url,selectedDate }) 
             value={workout}
           /> : null}
         </div>
+        <div style={{ height: 20 }}></div>
         <div>
-          <label>Sets:</label>
           {sets.map((set, index) => (
-            <div style={{marginTop:4}} key={index}>
-              <TextField type="number" value={set.weight} onChange={(e) => handleWeightChange(e, index)} placeholder="Weight" required label="kg" />
-              <TextField type="number" value={set.reps} onChange={(e) => handleRepsChange(e, index)} placeholder="Reps" required label="Reps" />
+            <div style={inputsContainer} key={index}>
+              <TextField type="number" sx={inputStyle} value={set.weight} onChange={(e) => handleWeightChange(e, index)} placeholder="Weight" required label="kg" />
+              <TextField type="number" sx={inputStyle} value={set.reps} onChange={(e) => handleRepsChange(e, index)} placeholder="Reps" required label="Reps" />
               <button type="button" onClick={() => handleRemoveSet(index)}><Delete /></button>
             </div>
           ))}
-          <button type="button"  onClick={handleAddSet}><Add /> </button>
         </div>
 
-       <div style={{width:"100%",display:'flex',alignItems:"center",justifyContent:"center"}}> <button type="submit">Submit</button></div>
+        <div style={{ width: "100%", display: 'flex', alignItems: "center", justifyContent: "center",columnGap:4 }}>
+          <button type="button"  onClick={handleAddSet}>Add set</button>
+          <button style={{ height: "100%" }} type="submit">Submit</button></div>
       </form>
 
     </Drawer>
