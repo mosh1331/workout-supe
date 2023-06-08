@@ -40,7 +40,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
     // Perform submission logic here, e.g., send data to the server
     console.log({ workout, sets });
    
-    if(isNOTNullOrUndefined(workoutFortheDay._id)){
+    if(isNOTNullOrUndefined(workoutFortheDay?._id)){
       updateWorkout()
     }else{
       createWorkout()
