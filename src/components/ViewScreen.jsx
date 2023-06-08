@@ -10,8 +10,10 @@ import { LocalizationProvider, PickersDay } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CheckIcon from '@mui/icons-material/Check';
 import WorkoutList from './WorkoutList'
+import axios from 'axios'
 
-const url = "https://workout-app-server.vercel.app"
+// const url = "https://workout-app-server.vercel.app"
+const url = "http://localhost:3000"
 const ViewScreen = () => {
   const [datalist, setDatalist] = useState([])
   const [exercises, setExercises] = useState([])
@@ -42,6 +44,17 @@ const ViewScreen = () => {
   }
 
 
+  const deleteWorkout =async(id)=>{
+    try {
+        await axios.delete(`${url}/workouts/${id}`);
+        console.log('Exercise data successfully deleted!');
+        getData()
+      } catch (error) {
+        console.error('Error deleting exercise data:', error);
+        alert('Delete Unsuccessfull')
+      }
+      
+}
  
 
   return (
@@ -93,7 +106,7 @@ const ViewScreen = () => {
          onChange={(e)=>{setSelectedDate({standard:dayjs(e.$d),display: dayjs(e.$d).format("DD-MM-YYYY")})
         }}
          renderInput={(params) => {
-           <TextField {...params} />;
+           <TextField {...params} />
          }}
        slotProps={{day:[1,5,9],actionBar: { actions: [] }}}
         />
@@ -101,8 +114,8 @@ const ViewScreen = () => {
       <Fab sx={{ position: "absolute", bottom: 50, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
-     <WorkoutList datalist={datalist} selectedDate={selectedDate} />
-      <AddWorkoutForm selectedDate={selectedDate} url={url} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
+     <WorkoutList deleteWorkout={deleteWorkout} url={url} datalist={datalist} selectedDate={selectedDate} />
+      <AddWorkoutForm  datalist={datalist} selectedDate={selectedDate} url={url} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
     </div>
   )
 }

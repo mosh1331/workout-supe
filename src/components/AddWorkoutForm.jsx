@@ -1,11 +1,17 @@
 import { Add, Delete } from '@mui/icons-material';
 import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/material';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
+import { isNOTNullOrUndefined } from '../utils/helpers';
 
-const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate }) => {
+const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,datalist}) => {
   const [workout, setWorkout] = useState("");
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
+
+  const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
+  const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
+  console.log(workoutFortheDay,'workoutId')
 
   const handleRepsChange = (e, index) => {
     const newSets = [...sets];
@@ -33,6 +39,16 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate })
     e.preventDefault();
     // Perform submission logic here, e.g., send data to the server
     console.log({ workout, sets });
+   
+    if(isNOTNullOrUndefined(workoutFortheDay._id)){
+      updateWorkout()
+    }else{
+      createWorkout()
+    }
+ 
+  };
+
+  const createWorkout =async()=>{
     const exerciseData = {
       date: selectedDate.standard,
       exercises: [{
@@ -47,12 +63,33 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate })
     } catch (error) {
       console.error('Error posting exercise data:', error);
     }
+    resetform()
+  }
+ 
+  const updateWorkout =async()=>{
+    const exerciseData = {
+      date: selectedDate.standard,
+      exercises: [...workoutFortheDay.exercises,{
+        name: workout.name,
+        sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
+      }]
+    }
+    console.log(exerciseData, 'exerciseData update')
+    try {
+      await axios.put(`${url}/workouts/${workoutFortheDay._id}`, exerciseData);
+      console.log('Exercise data successfully posted!');
+    } catch (error) {
+      console.error('Error posting exercise data:', error);
+    }
+    resetform()
+  }
+
+  const resetform =()=>{
     // Reset form
     setWorkout(" ");
     setSets([{ reps: 0, weight: 0 }]);
     setShowForm(false)
-  };
-
+  }
   const inputsContainer = {
     marginBottom: "12px",
     display: "flex",

@@ -1,9 +1,13 @@
-import { ExpandLess, ExpandMore, FitnessCenter, StarBorder } from '@mui/icons-material';
+import { Delete, ExpandLess, ExpandMore, FitnessCenter, StarBorder } from '@mui/icons-material';
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import axios from 'axios';
 import dayjs from 'dayjs'
 import React from 'react'
 
-const WorkoutList = ({ datalist, selectedDate }) => {
+const WorkoutList = ({ datalist, selectedDate ,deleteWorkout}) => {
+    const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
+    const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
+
     const [open, setOpen] = React.useState('');
 
     const handleClick = (id) => {
@@ -13,6 +17,8 @@ const WorkoutList = ({ datalist, selectedDate }) => {
         setOpen(id);
         }
     };
+
+
     return (
         <div style={{ padding: 12 }}> {datalist?.filter(i => dayjs(i.date).format("DD-MM-YYYY") == selectedDate.display)?.map(i => <div>{i.exercises?.map(i => <div>
             <ListItemButton  sx={{
@@ -26,7 +32,7 @@ const WorkoutList = ({ datalist, selectedDate }) => {
                 <ListItemText primary={i.name} />
                 {open === i._id ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={open === i._id} timeout="auto" unmountOnExit>
+            <Collapse sx={{position:"relative"}} in={open === i._id} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     {i.sets.map(set =>  <ListItemButton sx={{ pl: 4 }}>
                         <ListItemIcon>
@@ -36,8 +42,10 @@ const WorkoutList = ({ datalist, selectedDate }) => {
                         <ListItemText primary={'x'} />
                         <ListItemText primary={`${set.reps} reps`} />
                     </ListItemButton>)}
-                   
                 </List>
+                <div style={{position:"absolute",right:"20px",top:"10px",width:"20px",height:"20px"}} onClick={() =>deleteWorkout(workoutFortheDay._id)} >
+                    <Delete   color='tomato' />
+                </div>
             </Collapse>
         </div>)}</div>)}</div>
     )
