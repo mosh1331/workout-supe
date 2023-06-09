@@ -111,7 +111,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
     >
       <form onSubmit={handleSubmit} style={{ padding: '16px',height:"30vh" }}>
         <div style={{ marginBottom: 4 }}>
-          {exercises?.length > 0 ? <Autocomplete
+           <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={exercises}
@@ -129,7 +129,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
               setWorkout(newValue);
             }}
             value={workout}
-          /> : null}
+          />
         </div>
         <div style={{ height: 20 }}></div>
         <div>
