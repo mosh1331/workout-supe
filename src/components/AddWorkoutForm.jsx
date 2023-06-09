@@ -2,11 +2,11 @@ import { Add, Delete } from '@mui/icons-material';
 import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/material';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isNOTNullOrUndefined } from '../utils/helpers';
 
 const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,datalist}) => {
-  const [workout, setWorkout] = useState("");
+  const [workout, setWorkout] = useState(exercises[0]);
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
 
   const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
@@ -100,6 +100,10 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
   const inputStyle = {
     width: "40%"
   }
+
+  useEffect(()=>{
+    console.log(workout,'workout')
+  },[workout])
 
   return (
 
