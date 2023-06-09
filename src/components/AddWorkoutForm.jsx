@@ -86,7 +86,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
 
   const resetform =()=>{
     // Reset form
-    setWorkout(" ");
+    setWorkout(exercises[0]);
     setSets([{ reps: 0, weight: 0 }]);
     setShowForm(false)
   }
