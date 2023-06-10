@@ -1,48 +1,50 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from "vite-plugin-pwa";
+import { VitePWA } from 'vite-plugin-pwa'
 
-
-const manifestForPlugin = {
-	registerType: "prompt",
-	includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
-	manifest: {
-		name: "Workout Supe",
-		short_name: "Workout Supe",
-		description: "An app that can log your daily workout.",
-		icons: [
-			{
-				src: "/android-chrome-192x192.png",
-				sizes: "192x192",
-				type: "image/png",
-			},
-			{
-				src: "/android-chrome-512x512.png",
-				sizes: "512x512",
-				type: "image/png",
-			},
-			{
-				src: "/apple-touch-icon.png",
-				sizes: "180x180",
-				type: "image/png",
-				purpose: "apple touch icon",
-			},
-			{
-				src: "/maskable_icon.png",
-				sizes: "225x225",
-				type: "image/png",
-				purpose: "any maskable",
-			},
-		],
-		theme_color: "#171717",
-		background_color: "#e8ebf2",
-		display: "standalone",
-		scope: "/",
-		start_url: "/",
-		orientation: "portrait",
-	},
-};
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),VitePWA(manifestForPlugin)],
+  plugins: [
+    react(),
+    VitePWA({
+      // add this to cache all the imports
+      workbox: {
+        globPatterns: ['**/*']
+      },
+      // add this to cache all the
+      // static assets in the public folder
+      includeAssets: ['**/*'],
+      manifest: {
+        theme_color: '#f65035',
+        background_color: '#f65035',
+        display: 'standalone',
+        scope: '/',
+        start_url: '/',
+        name: 'Workout Supe',
+        short_name: 'Workout Supe',
+        icons: [
+          {
+            src: '/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
+  ]
 })
