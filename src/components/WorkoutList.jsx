@@ -4,7 +4,7 @@ import axios from 'axios';
 import dayjs from 'dayjs'
 import React from 'react'
 
-const WorkoutList = ({ datalist, selectedDate, deleteWorkout }) => {
+const WorkoutList = ({ datalist, selectedDate,url,deleteExercise }) => {
     const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
     const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
 
@@ -18,7 +18,7 @@ const WorkoutList = ({ datalist, selectedDate, deleteWorkout }) => {
         }
     };
 
-
+  
     return (
         <div style={{ padding: 12 }}> {workoutFortheDay?.exercises?.map(i => <div>
             <ListItemButton sx={{
@@ -43,7 +43,7 @@ const WorkoutList = ({ datalist, selectedDate, deleteWorkout }) => {
                         <ListItemText primary={`${set.reps} reps`} />
                     </ListItemButton>)}
                 </List>
-                <div style={{ position: "absolute", right: "20px", top: "10px", width: "20px", height: "20px" }} onClick={() => deleteWorkout(workoutFortheDay._id)} >
+                <div style={{ position: "absolute", right: "20px", top: "10px", width: "20px", height: "20px" }} onClick={() => deleteExercise(workoutFortheDay,i._id)} >
                     <Delete color='tomato' />
                 </div>
             </Collapse>

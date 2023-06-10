@@ -11,7 +11,6 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
 
   const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
   const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
-  console.log(workoutFortheDay,'workoutId')
 
   const handleRepsChange = (e, index) => {
     const newSets = [...sets];
@@ -38,7 +37,6 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Perform submission logic here, e.g., send data to the server
-    console.log({ workout, sets });
    
     if(isNOTNullOrUndefined(workoutFortheDay?._id)){
       updateWorkout()
@@ -56,7 +54,6 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
       }]
     }
-    console.log(exerciseData, 'exerciseData')
     try {
       await axios.post(`${url}/workouts`, exerciseData);
       console.log('Exercise data successfully posted!');
@@ -74,7 +71,6 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
       }]
     }
-    console.log(exerciseData, 'exerciseData update')
     try {
       await axios.put(`${url}/workouts/${workoutFortheDay._id}`, exerciseData);
       console.log('Exercise data successfully posted!');
@@ -101,9 +97,6 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
     width: "40%"
   }
 
-  useEffect(()=>{
-    console.log(workout,'workout')
-  },[workout])
 
   return (
 

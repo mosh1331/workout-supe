@@ -12,8 +12,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import WorkoutList from './WorkoutList'
 import axios from 'axios'
 
-// const url = "https://workout-app-server.vercel.app"
-const url = "http://localhost:3000"
+const url = "https://workout-app-server.vercel.app"
+// const url = "http://localhost:3000"
 const ViewScreen = () => {
   const [datalist, setDatalist] = useState([])
   const [exercises, setExercises] = useState([])
@@ -44,17 +44,36 @@ const ViewScreen = () => {
   }
 
 
-  const deleteWorkout =async(id)=>{
-    try {
-        await axios.delete(`${url}/workouts/${id}`);
-        console.log('Exercise data successfully deleted!');
-        getData()
-      } catch (error) {
-        console.error('Error deleting exercise data:', error);
-        alert('Delete Unsuccessfull')
-      }
-      
+
+const deleteWorkoutsFortheDay =async(id)=>{
+  try {
+      await axios.delete(`${url}/workouts/${id}`);
+      console.log('Exercise data successfully deleted!');
+      getData()
+    } catch (error) {
+      console.error('Error deleting exercise data:', error);
+      alert('Delete Unsuccessfull')
+    }
+    
 }
+
+const deleteExercise =async(workoutFortheDay, exerciseId)=>{
+  const newList = workoutFortheDay.exercises.filter(i => i._id != exerciseId)
+  const exerciseData = {
+      date: selectedDate.standard,
+      exercises: newList
+    }
+    console.log(exerciseData, 'exerciseData update')
+    try {
+      await axios.put(`${url}/workouts/${workoutFortheDay._id}`, exerciseData);
+      alert('Exercise data successfully deleted!');
+      getData()
+    } catch (error) {
+      console.error('Error deleting exercise data:', error);
+    }
+
+}
+
  
 
   return (
@@ -114,7 +133,7 @@ const ViewScreen = () => {
       <Fab sx={{ position: "absolute", bottom: 50, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
-     <WorkoutList deleteWorkout={deleteWorkout} url={url} datalist={datalist} selectedDate={selectedDate} />
+     <WorkoutList deleteExercise={deleteExercise}  url={url} datalist={datalist} selectedDate={selectedDate} />
       <AddWorkoutForm  datalist={datalist} selectedDate={selectedDate} url={url} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
     </div>
   )
