@@ -16,7 +16,7 @@ export default defineConfig({
       includeAssets: ['**/*'],
       manifest: {
         theme_color: '#f65035',
-        background_color: '#f65035',
+        background_color: '#fff',
         display: 'standalone',
         scope: '/',
         start_url: '/',
