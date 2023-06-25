@@ -104,9 +104,8 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
       anchor={"bottom"}
       open={showForm}
       onClose={() => { setShowForm(false) }}
-      
     >
-      <form onSubmit={handleSubmit} style={{ padding: '16px',height:"30vh" }}>
+      <form onSubmit={handleSubmit} style={{ padding: '16px',height:"90vh" ,}}>
         <div style={{ marginBottom: 4 }}>
            <Autocomplete
             disablePortal

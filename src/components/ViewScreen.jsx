@@ -11,45 +11,43 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CheckIcon from '@mui/icons-material/Check';
 import WorkoutList from './WorkoutList'
 import axios from 'axios'
+import { useQuery,useQueryClient,useMutation } from 'react-query'
+import { deleteExercise, getExercises, getWorkouts } from '../apis/workoutApis'
 
 const url = "https://workout-app-server.vercel.app"
-// const url = "http://localhost:3000"
 const ViewScreen = () => {
-  const [datalist, setDatalist] = useState([])
-  const [exercises, setExercises] = useState([])
+  const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [selectedDate, setSelectedDate] = useState({standard:dayjs(),display: dayjs().format("DD-MM-YYYY")});
-  const [highlightedDays, setHighlightedDays] = useState([1, 2, 13]);
 
-  useEffect(() => {
-    getExercises()
-    
-    return () => { }
-  }, [])
+  const {
+    isLoading:isFetchingExercises,
+    isError,
+    error,
+    data:exercises
+  } = useQuery('exerises',getExercises)
 
-  useEffect(()=>{
-    if(!showForm){
-      getData()
-    }
-  },[showForm])
+  const {
+    isLoading:isFetchingWorkouts,
+    isError:isWorkouterror,
+    error:workoutsError,
+    data:datalist,
+  } = useQuery('workouts',getWorkouts)
 
-  const getData = async () => {
-    const data = await fetchList(`${url}/workouts`)
-    setDatalist(data)
-  }
 
-  const getExercises = async () => {
-    const data = await fetchList(`${url}/exercises`)
-    setExercises(data)
-  }
-
+  const deleteWorkoutMutation = useMutation(deleteExercise,{
+      onSuccess:()=>{
+        queryClient.invalidateQueries("workouts")
+      }
+    })
+  
 
 
 const deleteWorkoutsFortheDay =async(id)=>{
   try {
       await axios.delete(`${url}/workouts/${id}`);
       console.log('Exercise data successfully deleted!');
-      getData()
+      // getData()
     } catch (error) {
       console.error('Error deleting exercise data:', error);
       alert('Delete Unsuccessfull')
@@ -57,23 +55,25 @@ const deleteWorkoutsFortheDay =async(id)=>{
     
 }
 
-const deleteExercise =async(workoutFortheDay, exerciseId)=>{
+
+const removeExercise =async(workoutFortheDay, exerciseId)=>{
+  alert('remove')
   const newList = workoutFortheDay.exercises.filter(i => i._id != exerciseId)
   const exerciseData = {
       date: selectedDate.standard,
       exercises: newList
     }
     console.log(exerciseData, 'exerciseData update')
-    try {
-      await axios.put(`${url}/workouts/${workoutFortheDay._id}`, exerciseData);
-      alert('Exercise data successfully deleted!');
-      getData()
-    } catch (error) {
-      console.error('Error deleting exercise data:', error);
-    }
-
+    deleteWorkoutMutation.mutate({id:workoutFortheDay._id,exerciseData:exerciseData})
 }
 
+if(isFetchingExercises || isFetchingWorkouts){
+  return <div>Fetching</div>
+}
+
+if(isError){{
+  return <div>{error}</div>
+}}
  
 
   return (
@@ -133,7 +133,7 @@ const deleteExercise =async(workoutFortheDay, exerciseId)=>{
       <Fab sx={{ position: "absolute", bottom: 50, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
-     <WorkoutList deleteExercise={deleteExercise}  url={url} datalist={datalist} selectedDate={selectedDate} />
+     <WorkoutList deleteExercise={removeExercise}  url={url} datalist={datalist} selectedDate={selectedDate} />
       <AddWorkoutForm  datalist={datalist} selectedDate={selectedDate} url={url} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
     </div>
   )
