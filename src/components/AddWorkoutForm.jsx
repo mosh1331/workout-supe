@@ -4,13 +4,29 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { isNOTNullOrUndefined } from '../utils/helpers';
+import { addWorkout, editWorkout } from '../apis/workoutApis';
+import { useMutation, useQueryClient } from 'react-query';
 
-const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,datalist}) => {
+const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datalist}) => {
   const [workout, setWorkout] = useState(exercises[0]);
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
 
   const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
   const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
+  const queryClient = useQueryClient()
+
+
+  const addWorkoutMutation = useMutation(addWorkout,{
+    onSuccess:()=>{
+      queryClient.invalidateQueries("workouts")
+    }
+  })
+
+  const updateWorkoutMutation = useMutation(editWorkout,{
+    onSuccess:()=>{
+      queryClient.invalidateQueries("workouts")
+    }
+  })
 
   const handleRepsChange = (e, index) => {
     const newSets = [...sets];
@@ -54,12 +70,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
       }]
     }
-    try {
-      await axios.post(`${url}/workouts`, exerciseData);
-      console.log('Exercise data successfully posted!');
-    } catch (error) {
-      console.error('Error posting exercise data:', error);
-    }
+    addWorkoutMutation.mutate(exerciseData)
     resetform()
   }
  
@@ -71,12 +82,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, url, selectedDate ,d
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
       }]
     }
-    try {
-      await axios.put(`${url}/workouts/${workoutFortheDay._id}`, exerciseData);
-      console.log('Exercise data successfully posted!');
-    } catch (error) {
-      console.error('Error posting exercise data:', error);
-    }
+    updateWorkoutMutation.mutate({id:workoutFortheDay._id,exerciseData:exerciseData})
     resetform()
   }
 

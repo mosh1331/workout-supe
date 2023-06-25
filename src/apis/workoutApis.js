@@ -20,3 +20,15 @@ export const deleteExercise = async ({id,exerciseData}) => {
     exerciseData
   )
 }
+
+export const addWorkout = async (exerciseData)=>{
+    return  await workoutApi.post(`/workouts`, exerciseData)
+}
+
+
+export const editWorkout = async ({id,exerciseData}) => {
+    return await workoutApi.put(
+      `/workouts/${id}`,
+      exerciseData
+    )
+  }

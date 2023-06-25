@@ -4,7 +4,7 @@ import axios from 'axios';
 import dayjs from 'dayjs'
 import React from 'react'
 
-const WorkoutList = ({ datalist, selectedDate,url,deleteExercise }) => {
+const WorkoutList = ({ datalist, selectedDate,deleteExercise }) => {
     const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
     const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
 

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { fetchList } from '../services/api'
 import dayjs from 'dayjs'
 import AddWorkoutForm from './AddWorkoutForm'
 import { Badge, Fab } from '@mui/material'
-import { AddIcCallOutlined } from '@mui/icons-material'
 import AddIcon from '@mui/icons-material/Add';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { LocalizationProvider, PickersDay } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import CheckIcon from '@mui/icons-material/Check';
 import WorkoutList from './WorkoutList'
-import axios from 'axios'
 import { useQuery,useQueryClient,useMutation } from 'react-query'
 import { deleteExercise, getExercises, getWorkouts } from '../apis/workoutApis'
 
-const url = "https://workout-app-server.vercel.app"
 const ViewScreen = () => {
   const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
@@ -43,27 +38,12 @@ const ViewScreen = () => {
   
 
 
-const deleteWorkoutsFortheDay =async(id)=>{
-  try {
-      await axios.delete(`${url}/workouts/${id}`);
-      console.log('Exercise data successfully deleted!');
-      // getData()
-    } catch (error) {
-      console.error('Error deleting exercise data:', error);
-      alert('Delete Unsuccessfull')
-    }
-    
-}
-
-
 const removeExercise =async(workoutFortheDay, exerciseId)=>{
-  alert('remove')
   const newList = workoutFortheDay.exercises.filter(i => i._id != exerciseId)
   const exerciseData = {
       date: selectedDate.standard,
       exercises: newList
     }
-    console.log(exerciseData, 'exerciseData update')
     deleteWorkoutMutation.mutate({id:workoutFortheDay._id,exerciseData:exerciseData})
 }
 
@@ -73,6 +53,7 @@ if(isFetchingExercises || isFetchingWorkouts){
 
 if(isError){{
   return <div>{error}</div>
+  
 }}
  
 
@@ -133,8 +114,8 @@ if(isError){{
       <Fab sx={{ position: "absolute", bottom: 50, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
-     <WorkoutList deleteExercise={removeExercise}  url={url} datalist={datalist} selectedDate={selectedDate} />
-      <AddWorkoutForm  datalist={datalist} selectedDate={selectedDate} url={url} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
+     <WorkoutList deleteExercise={removeExercise}  datalist={datalist} selectedDate={selectedDate} />
+      <AddWorkoutForm  datalist={datalist} selectedDate={selectedDate} showForm={showForm} exercises={exercises} setShowForm={setShowForm} />
     </div>
   )
 }
