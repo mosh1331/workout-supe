@@ -7,7 +7,7 @@ const DateRow = ({ days, workoutDays, selectedDate, setSelectedDate }) => {
     const isSelectedDate = (date) => dayjs(date).format("YYYY-MM-DD") === selectedDate.display
     return (
         <div className="flex flex-row w-full justify-between">
-            {days.map((date, index) => {
+            {days?.map((date, index) => {
                 return (
                     <div
                         key={index}
@@ -16,7 +16,7 @@ const DateRow = ({ days, workoutDays, selectedDate, setSelectedDate }) => {
                                 : ''
                             } rounded relative `}
                     >
-                        {workoutDays.find((d) => dayjs(d.date).format('MM DD YYYY') === date.format('MM DD YYYY')) ? (
+                        {workoutDays?.find((d) => dayjs(d.date).format('MM DD YYYY') === date.format('MM DD YYYY')) ? (
                             <IndicatorDot color="green" />
                         ) : <IndicatorDot color="red" />}
                         <div
