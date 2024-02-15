@@ -76,7 +76,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
  
   const updateWorkout =async()=>{
     const exerciseData = {
-      date: selectedDate.standard,
+      // date: selectedDate.standard,
       exercises: [...workoutFortheDay.exercises,{
         name: workout.name,
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })

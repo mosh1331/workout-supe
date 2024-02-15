@@ -9,6 +9,7 @@ import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { deleteExercise, getExercises, getWorkoutDays, getWorkouts, getWorkoutsByDate } from '../apis/workoutApis'
 import Loader from './Loader';
 import { generateConsecutiveDays } from '../utils/dateUtils';
+import DateRow from './DateRow';
 
 const ViewScreen = () => {
   const queryClient = useQueryClient()
@@ -69,21 +70,7 @@ const ViewScreen = () => {
 
   return (
     <div className="text-3xl font-bold min-h-[100vh] w-full relative pt-[40px]" >
-      <div className="flex flex-row w-full justify-between">
-        {days.map((date, index) => {
-          const currentDate = new Date()
-          return(
-            <div key={index} className={`w-[15%] m-2 text-center bg-[white] border-2 ${dayjs(date).format("YYYY-MM-DD") === dayjs(currentDate).format('YYYY-MM-DD') ? 'border-[#2564C0]':''} rounded relative `}>
-              {workoutDays.find(d => dayjs(d.date).format('MM DD YYYY') === date.format('MM DD YYYY')) ? <div className='w-2 h-2 bg-[green] absolute top-2 right-2 rounded-lg'/> : null}
-              <div onClick={(e) => {
-                setSelectedDate({ standard: dayjs(date), display: dayjs(date).format("YYYY-MM-DD") })
-              }} className={`text-black p-4 mb-2 text-[12px]`}>
-                {date.format('MMM D')}
-              </div>
-            </div>
-          )
-        })}
-      </div>
+      <DateRow days={days} workoutDays={workoutDays} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Fab sx={{ position: "absolute", bottom: 100, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
