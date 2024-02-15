@@ -7,6 +7,7 @@ import React from 'react'
 const WorkoutList = ({ datalist, selectedDate,deleteExercise }) => {
     const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
     const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
+    console.log(selectedDate,'selectedDate')
 
     const [open, setOpen] = React.useState('');
 

@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import WorkoutList from './WorkoutList'
 import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { deleteExercise, getExercises, getWorkouts } from '../apis/workoutApis'
+import Loader from './Loader';
 
 const ViewScreen = () => {
   const queryClient = useQueryClient()
@@ -60,7 +61,7 @@ const ViewScreen = () => {
   }, []);
 
   if (isFetchingExercises || isFetchingWorkouts) {
-    return <div>Fetching</div>
+    return <Loader />
   }
 
   if (isError) {
@@ -71,12 +72,12 @@ const ViewScreen = () => {
   }
 
   return (
-    <div className="text-3xl font-bold " style={{ position: 'relative', minHeight: "100vh", width: "100%" }}>
+    <div className="text-3xl font-bold min-h-[100vh] w-full relative pt-[40px]" >
       <div className="flex flex-row w-full justify-between">
         {days.map((date, index) => (
-          <div key={index} className="w-[20%] m-2 text-center">
+          <div key={index} className="w-[15%] m-2 text-center bg-[white] border-2 rounded  ">
             <div  onClick={(e)=>{setSelectedDate({standard:dayjs(date),display: dayjs(date).format("DD-MM-YYYY")})
-        }} className={`bg-[grey] text-white p-4 rounded-md mb-2`}>
+        }} className={`text-black p-4 rounded-md mb-2`}>
               {date.format('MMM D')}
             </div>
           </div>
