@@ -19,7 +19,6 @@ const WorkoutList = ({ datalist, deleteExercise, isFetchingWorkouts }) => {
              <div className="text-sm font-normal text-[tomato]">No workout logged</div>
         </div>
     }
-    console.log(workoutFortheDay,'day workout')
 
     return (
         <div style={{ padding: 12 }}> {workoutFortheDay?.exercises?.map(i => <div>

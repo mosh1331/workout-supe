@@ -1,7 +1,7 @@
 export const datePickerStyle ={
     '& .css-qa7bje-MuiButtonBase-root-MuiPickersDay-root': {
     fontSize: '20px !important',
-    color:"white",
+    color:"black",
     width:"40px",
     borderRadius:2,
     height:"40px"
@@ -37,4 +37,4 @@ export const datePickerStyle ={
   '& .css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected':{
     background:"purple !important"
   },
-background:"#423b3b",width:"95%",margin:"0 auto",fontSize:20,color:'tomato'}
+background:"#fff",width:"95%",margin:"0 auto",fontSize:20,color:'tomato'}

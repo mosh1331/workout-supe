@@ -71,7 +71,7 @@ const ViewScreen = () => {
   return (
     <div className="text-3xl font-bold min-h-[100vh] w-full relative pt-[40px]" >
       <DateRow days={days} workoutDays={workoutDays} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-      <Fab sx={{ position: "absolute", bottom: 100, right: 20 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
+      <Fab sx={{ position: "absolute", bottom: 100, right: 20, zIndex:1 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
       <WorkoutList isFetchingWorkouts={isFetchingWorkouts} deleteExercise={removeExercise} datalist={datalist} selectedDate={selectedDate} />
