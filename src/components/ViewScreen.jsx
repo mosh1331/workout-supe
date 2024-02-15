@@ -58,7 +58,6 @@ const ViewScreen = () => {
   useEffect(() => {
     setDays(generateConsecutiveDays());
   }, []);
-  return <Loader />
 
   if (isFetchingExercises) {
     return <Loader />
