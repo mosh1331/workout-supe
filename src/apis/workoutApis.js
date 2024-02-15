@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseURL = 'http://localhost:3000'
-// const baseURL = 'https://workout-app-server.vercel.app'
+// const baseURL = 'http://localhost:3000'
+const baseURL = 'https://workout-app-server.vercel.app'
 const workoutApi = axios.create({
   baseURL: baseURL
 })
