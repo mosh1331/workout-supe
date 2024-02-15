@@ -3,30 +3,24 @@ import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui
 import axios from 'axios';
 import dayjs from 'dayjs'
 import React from 'react'
+import SmallLoader from './SmallLoader';
 
-const WorkoutList = ({ datalist, selectedDate,deleteExercise }) => {
-    const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
-    const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
-    console.log(selectedDate,'selectedDate')
+const WorkoutList = ({ datalist, deleteExercise, isFetchingWorkouts }) => {
+    const workoutFortheDay = datalist
 
     const [open, setOpen] = React.useState('');
 
-    const handleClick = (id) => {
-        if (id === open) {
-            setOpen('');
-        } else {
-            setOpen(id);
-        }
-    };
+    if (isFetchingWorkouts) {
+        return <SmallLoader />
+    }
 
-  
     return (
         <div style={{ padding: 12 }}> {workoutFortheDay?.exercises?.map(i => <div>
             <ListItemButton sx={{
                 '& .css-elzd3y-MuiButtonBase-root-MuiListItemButton-root': {
                     background: "red !important"
                 }
-            }} onClick={() => handleClick(i._id)}>
+            }} onClick={() => i._id === open ? setOpen('') : setOpen(i._id)}>
                 <ListItemIcon>
                     <FitnessCenter />
                 </ListItemIcon>
@@ -44,7 +38,7 @@ const WorkoutList = ({ datalist, selectedDate,deleteExercise }) => {
                         <ListItemText primary={`${set.reps} reps`} />
                     </ListItemButton>)}
                 </List>
-                <div style={{ position: "absolute", right: "20px", top: "10px", width: "20px", height: "20px" }} onClick={() => deleteExercise(workoutFortheDay,i._id)} >
+                <div style={{ position: "absolute", right: "20px", top: "10px", width: "20px", height: "20px" }} onClick={() => deleteExercise(workoutFortheDay, i._id)} >
                     <Delete color='tomato' />
                 </div>
             </Collapse>

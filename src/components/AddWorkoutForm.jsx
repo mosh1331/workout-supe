@@ -11,8 +11,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
   const [workout, setWorkout] = useState(exercises[0]);
   const [sets, setSets] = useState([{ reps: 0, weight: 0 }]);
 
-  const formattedDate = (date) => dayjs(date).format("DD-MM-YYYY")
-  const workoutFortheDay = datalist?.find(i => formattedDate(i.date) == selectedDate.display)
+  const workoutFortheDay = datalist
   const queryClient = useQueryClient()
 
 
@@ -64,7 +63,8 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
 
   const createWorkout =async()=>{
     const exerciseData = {
-      date: selectedDate.standard,
+      // 2024-02-15
+      date: selectedDate.display,
       exercises: [{
         name: workout.name,
         sets: sets.map(i => { return { reps: i.reps, weight: i.weight } })
