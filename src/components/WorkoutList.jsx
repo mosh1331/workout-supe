@@ -14,6 +14,13 @@ const WorkoutList = ({ datalist, deleteExercise, isFetchingWorkouts }) => {
         return <SmallLoader />
     }
 
+    if(!workoutFortheDay){
+        return <div className="grid place-content-center pt-20">
+             <div className="text-sm font-normal text-[tomato]">No workout logged</div>
+        </div>
+    }
+    console.log(workoutFortheDay,'day workout')
+
     return (
         <div style={{ padding: 12 }}> {workoutFortheDay?.exercises?.map(i => <div>
             <ListItemButton sx={{
