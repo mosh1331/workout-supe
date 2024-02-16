@@ -10,6 +10,7 @@ import { deleteExercise, getExercises, getWorkoutDays, getWorkouts, getWorkoutsB
 import Loader from './Loader';
 import { generateConsecutiveDays } from '../utils/dateUtils';
 import DateRow from './DateRow';
+import CurrentStreak from './CurrentStreak';
 
 const ViewScreen = () => {
   const queryClient = useQueryClient()
@@ -44,6 +45,8 @@ const ViewScreen = () => {
     onSuccess: () => {
       queryClient.invalidateQueries("workouts")
       queryClient.invalidateQueries("workoutDays")
+      queryClient.invalidateQueries("current_streak")
+      
     }
   })
 
@@ -71,6 +74,7 @@ const ViewScreen = () => {
 
   return (
     <div className="text-3xl font-bold min-h-[100vh] w-full relative pt-[40px]" >
+      <CurrentStreak />
       <DateRow days={days} workoutDays={workoutDays} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <Fab sx={{ position: "absolute", bottom: 100, right: 20, zIndex:1 }} onClick={() => setShowForm(true)} color="primary" aria-label="add">
         <AddIcon />
