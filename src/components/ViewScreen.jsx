@@ -43,6 +43,7 @@ const ViewScreen = () => {
   const deleteWorkoutMutation = useMutation(deleteExercise, {
     onSuccess: () => {
       queryClient.invalidateQueries("workouts")
+      queryClient.invalidateQueries("workoutDays")
     }
   })
 
@@ -50,7 +51,7 @@ const ViewScreen = () => {
   const removeExercise = async (workoutFortheDay, exerciseId) => {
     const newList = workoutFortheDay.exercises.filter(i => i._id != exerciseId)
     const exerciseData = {
-      date: selectedDate.standard,
+      date:selectedDate.display,
       exercises: newList
     }
     deleteWorkoutMutation.mutate({ id: workoutFortheDay._id, exerciseData: exerciseData })

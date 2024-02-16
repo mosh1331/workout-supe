@@ -18,6 +18,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
   const addWorkoutMutation = useMutation(addWorkout,{
     onSuccess:()=>{
       queryClient.invalidateQueries("workouts")
+      queryClient.invalidateQueries("workoutDays")
     }
   })
 
