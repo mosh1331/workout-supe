@@ -16,6 +16,11 @@ export const getWorkouts = async () => {
   return response?.data
 }
 
+export const getCurrentStreak = async () => {
+  const response = await workoutApi.get('/workoutDays/currentStreak')
+  return response?.data
+}
+
 export const getWorkoutDays = async () => {
   const response = await workoutApi.get('/workoutDays')
   return response?.data
