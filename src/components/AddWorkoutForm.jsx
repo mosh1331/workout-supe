@@ -149,8 +149,8 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
         </div>
 
         <div style={{ width: "100%", display: 'flex', alignItems: "center", justifyContent: "center",columnGap:4 }}>
-          <button type="button"  onClick={handleAddSet}>Add set</button>
-          <button style={{ height: "100%" }} type="submit">Submit</button></div>
+          <button type="button"  className=' p-2 border-2 rounded text-sm ' onClick={handleAddSet}>Add set</button>
+          <button className='p-2 border-2 rounded text-sm text-amber-500' type="submit">Submit</button></div>
       </form>
 
     </Drawer>
