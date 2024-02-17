@@ -43,6 +43,10 @@ export const addWorkout = async (exerciseData)=>{
     return  await workoutApi.post(`/workouts`, exerciseData)
 }
 
+export const addExercise = async (exerciseData)=>{
+  return  await workoutApi.post(`/exercises`, exerciseData)
+}
+
 
 export const editWorkout = async ({id,exerciseData}) => {
     return await workoutApi.put(

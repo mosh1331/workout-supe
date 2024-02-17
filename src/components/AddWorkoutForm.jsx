@@ -1,7 +1,5 @@
 import { Add, Delete } from '@mui/icons-material';
 import { AppBar, Autocomplete, Box, Drawer, TextField, Toolbar } from '@mui/material';
-import axios from 'axios';
-import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { isNOTNullOrUndefined } from '../utils/helpers';
 import { addWorkout, editWorkout } from '../apis/workoutApis';
@@ -39,7 +37,7 @@ const AddWorkoutForm = ({ exercises, showForm, setShowForm, selectedDate ,datali
 
   const handleWeightChange = (e, index) => {
     const newSets = [...sets];
-    newSets[index].weight = parseInt(e.target.value);
+    newSets[index].weight = parseFloat(e.target.value);
     setSets(newSets);
   };
 
