@@ -33,8 +33,6 @@ const ViewScreen = () => {
 
   const {
     isLoading: isFetchingWorkouts,
-    isError: isWorkoutsByDateError,
-    error: workoutsByDateError,
     data: datalist,
   } = useQuery(['workouts', selectedDate.display], () => getWorkoutsByDate(selectedDate.display), {
     enabled: selectedDate.display !== '',

@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import AddExercise from './components/AddExercise'
 import CalenderView from './components/CalenderView'
 import ProgressView from './components/ProgressView'
+import BottomTabNavigation from './components/BottomTabNav'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/progress" element={<ProgressView />} />
         </Routes>
       </div>
+      <BottomTabNavigation />
     </div>
   )
 }
