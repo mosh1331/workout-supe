@@ -11,7 +11,7 @@ import BottomTabNavigation from './components/BottomTabNav'
 function App() {
 
   return (
-    <div>
+    <div className='relative h-[100vh]' >
       <Header />
       <div className="md:w-[60%] w-[90%] mx-auto">
         <Routes>
