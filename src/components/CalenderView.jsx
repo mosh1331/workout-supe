@@ -37,7 +37,7 @@ const CalenderView = () => {
         <StaticDatePicker sx={datePickerStyle}
           variant='static'
           orientation='portrait'
-          value={dayjs(currentDate)}
+          value={selectedDate.standard}
            onChange={(e)=>{setSelectedDate({standard:dayjs(e.$d),display: dayjs(e.$d).format("YYYY-MM-DD")})
           }}
           renderInput={(params) => {
